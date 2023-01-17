@@ -1,0 +1,30 @@
+<html lang="en">
+  <%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+    
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <p><%= blog.body %></p>
+      </div>
+      <a class="button" data-doc="<%= blog.id %>">delete</a>
+    </div>
+
+    <%- include('../partials/footer.ejs') %>
+
+    <script>
+      const deleteBtn = document.querySelector('.details .button');
+
+      deleteBtn.addEventListener('click', (e) => {
+        const endpoint = `/blogs/${deleteBtn.dataset.doc}`;
+        //the response we're getting in the then method is the redirect we sent from the backend
+        fetch(endpoint, { method: "DELETE" })
+        .then((response) => response.json())
+        .then((data) => window.location.href = data.redirect)
+        .catch((error) => console.log(error));
+      });
+    </script>
+  </body>
+</html>
